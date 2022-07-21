@@ -1,5 +1,6 @@
 package com.example.crud.service;
 
+import com.example.crud.DAO.StudentDao;
 import com.example.crud.DAO.StudentDaoImp;
 import com.example.crud.DTO.StudentDto;
 import com.example.crud.entity.Course;
@@ -18,16 +19,16 @@ import java.util.stream.Collectors;
 @Slf4j
 public class StudentService {
     @Autowired
-    StudentDaoImp studentDaoImp;
+    StudentDao studentDao;
 
     public StudentDto createStudent(Student student) {
-        studentDaoImp.saveStudent(student);
+        studentDao.saveStudent(student);
         return convertEntityToDto(student);
 
     }
 
     public List<StudentDto> getStudents() {
-        return studentDaoImp.getStudents()
+        return studentDao.getStudents()
                 .stream()
                 .map(this::convertEntityToDto)
                 .collect(Collectors.toList());
@@ -35,20 +36,20 @@ public class StudentService {
 
     public StudentDto updateStudent(Student student, int id) {
         log.info("Inside updateStudent method of studentService");
-        Student student1 = studentDaoImp.findById(id);
+        Student student1 = studentDao.findById(id);
 
         student1.setFirstName(student.getFirstName());
         student1.setLastName(student.getLastName());
         student1.setGender(student.getGender());
         student1.setAddresses(student.getAddresses());
         student1.setCourse(student.getCourse());
-        studentDaoImp.saveStudent(student1);
+        studentDao.saveStudent(student1);
 
         return convertEntityToDto(student1);
     }
 
     public ResponseEntity<StudentDto> removeStudent(int id) {
-        studentDaoImp.deleteStudent(id);
+        studentDao.deleteStudent(id);
         return ResponseEntity.ok().build();
     }
 
@@ -65,11 +66,11 @@ public class StudentService {
 
 
     public StudentDto getStudent(int id) {
-        return convertEntityToDto(studentDaoImp.findById(id));
+        return convertEntityToDto(studentDao.findById(id));
     }
 
     public Page<StudentDto> getAllStudentsByPage(Pageable pageable) {
-        Page<StudentDto> dtoPage = studentDaoImp.findAll(pageable)
+        Page<StudentDto> dtoPage = studentDao.findAll(pageable)
                 .map((student) -> convertEntityToDto(student));
         return dtoPage;
     }
@@ -88,9 +89,9 @@ public class StudentService {
 //    });
 
     public StudentDto addCourseToStudent(int id, Course course) {
-        Student student = studentDaoImp.findById(id);
+        Student student = studentDao.findById(id);
         student.setCourse(course);
-        studentDaoImp.saveStudent(student);
+        studentDao.saveStudent(student);
         return convertEntityToDto(student);
     }
 }
