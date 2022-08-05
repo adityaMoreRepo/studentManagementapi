@@ -43,13 +43,9 @@ public class StudentService {
     public StudentDto updateStudent(Student student, int id) {
         log.info("Inside StudentService method updateStudent");
         Student student1 = studentDao.findById(id);
-        try{
-            if(student1 == null)
-                throw new StudentNotFoundException("The Student id " + id + " not found");
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+        if (student1 == null)
+            throw new StudentNotFoundException("The Student id " + id + " not found");
+
 
         student1.setFirstName(student.getFirstName());
         student1.setLastName(student.getLastName());
@@ -83,13 +79,9 @@ public class StudentService {
     public StudentDto getStudent(int id) {
         log.info("Inside StudentService method getStudent");
         Student student = studentDao.findById(id);
-        try{
-            if(student == null)
-                throw new StudentNotFoundException("The Student id " + id + " not found");
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+        if (student == null)
+            throw new StudentNotFoundException("The Student id " + id + " not found");
+
         return convertEntityToDto(student);
     }
 
