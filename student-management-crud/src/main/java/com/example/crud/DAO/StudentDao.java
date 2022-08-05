@@ -14,5 +14,7 @@ public interface StudentDao {
     Student findById(int id);
     void deleteStudent(int id);
     Page<Student> findAll(Pageable pageable);
+    List<Student> findByFirstName(String firstName);
+
 //    ResponseEntity<Student> updateCourse(int id, Course course);
 }

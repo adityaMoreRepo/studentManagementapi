@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 //Testing Persistence/repository layer
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DataJpaTest
@@ -87,5 +85,25 @@ class StudentRepositoryTest {
         Assertions.assertThat(students.size()).isGreaterThan(1);
     }
 
+    @Order(4)
+    @Test
+    public void findByFirstNameTest(){
+        List<Student> students = studentRepository.findByFirstName("Vikas");
+        System.out.println("Students: " + students);
+        Assertions.assertThat(students.size()).isGreaterThan(1);
+    }
 
+    @Order(5)
+    @Test
+    public void checkIfStudentExistsId(){
+        int id = 1;
+        Student student = Student.builder()
+                .firstName("Aditya")
+                .lastName("More")
+                .gender("Male")
+                .build();
+        studentRepository.save(student);
+        Boolean expected = studentRepository.existsById(id);
+        Assertions.assertThat(expected).isTrue();
+    }
 }
